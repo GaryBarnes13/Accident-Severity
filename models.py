@@ -9,9 +9,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 import xgboost as xgb
+from sklearn.neighbors import RadiusNeighborsClassifier
 
 df = pd.read_csv("/Users/andrewsayadi/Downloads/US_Accidents_Dec20_updated.csv")
-X = df.head(1000)
+X = df.head(10000)
 X = df.drop(['ID',
                'Severity',
                'Start_Lat',
@@ -62,9 +63,9 @@ X_train, X_test, y_train, y_test = train_test_split(X_labeled, y, test_size=0.3)
 # lr.fit(X_train, y_train)
 # print('train test split decision tree: ', lr.score(X_test, y_test))
 
-rf = RandomForestClassifier(n_estimators = 40)
-rf.fit(X_train, y_train)
-print('train test split Random Forest: ', rf.score(X_test, y_test))
+# rf = RandomForestClassifier(n_estimators = 40)      #score: 73%
+# rf.fit(X_train, y_train)
+# print('train test split Random Forest: ', rf.score(X_test, y_test))
 
 # bagging = BaggingClassifier(base_estimator=t,n_estimators=10, random_state=0).fit(X_labeled, y) #score: 97%
 # print(bagging.score(X_test, y_test))
@@ -79,6 +80,10 @@ print('train test split Random Forest: ', rf.score(X_test, y_test))
 # neigh = KNeighborsClassifier(n_neighbors=3) #score: 80%, 3 neighbors is best cause less and more decrease accuracy.
 # neigh.fit(X_labeled, y)
 # print(neigh.score(X_test, y_test))
+
+radius = RadiusNeighborsClassifier(radius=1.6)  #score: 99%
+radius.fit(X_labeled, y)
+print(radius.score(X_test, y_test))
 
 # gbc = GradientBoostingClassifier().fit(X_labeled, y) # score: 84%
 # print(gbc.score(X_test, y_test))
