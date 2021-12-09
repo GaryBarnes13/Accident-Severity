@@ -88,8 +88,6 @@ X_labeled = X_labeled.drop(["Temperature(F)", "Wind_Chill(F)"], axis=1)
 # fill NaN's with 0
 X_labeled = X_labeled.fillna(0)
 
-X_labeled = X_labeled.head(100)
-y = y.head(100)
 
 # create classifier for use below
 clf = DecisionTreeClassifier(random_state=0)
