@@ -7,32 +7,46 @@
 
 import pandas as pd
 from imblearn.under_sampling import RandomUnderSampler
-from imblearn.over_sampling import RandomOverSampler
-from imblearn.over_sampling import SMOTENC
+from imblearn.under_sampling import TomekLinks
 
 from MultiColumnLabelEncoder import MultiColumnLabelEncoder
 
 data = pd.read_csv("./accidents.zip")
 
 # drop irrelevant columns
-X = data.drop(
+X = data[
     [
-        "ID",
-        "Severity",
-        "Start_Lat",
-        "End_Lat",
-        "Start_Lng",
-        "End_Lng",
-        "Distance(mi)",
-        "Start_Time",
-        "End_Time",
-        "Description",
-        "Number",
-        "Side",
-        "Street",
-    ],
-    axis=1,
-)
+        "Airport_Code",
+        "Amenity",
+        "Astronomical_Twilight",
+        "Bump",
+        "City",
+        "Civil_Twilight",
+        "County",
+        "Crossing",
+        "Give_Way",
+        "Humidity(%)",
+        "Junction",
+        "Nautical_Twilight",
+        "No_Exit",
+        "Precipitation(in)",
+        "Pressure(in)",
+        "Railway",
+        "State",
+        "Station",
+        "Stop",
+        "Sunrise_Sunset",
+        "Temperature(F)",
+        "Timezone",
+        "Traffic_Signal",
+        "Visibility(mi)",
+        "Weather_Condition",
+        "Wind_Chill(F)",
+        "Wind_Direction",
+        "Wind_Speed(mph)",
+        "Zipcode",
+    ]
+]
 
 # set target as severity
 y = data["Severity"]
@@ -40,42 +54,41 @@ y = data["Severity"]
 # get our data ready to balance
 # possible GPU annotation here
 def preprocess(X, y):
-    # subset of data - DELETE BEFORE PUSH
-    X = X.head(100)
-    y = y.head(100)
 
     # encode nominal/categorical attributes with label encoding
     X = MultiColumnLabelEncoder(
         columns=[
-            "City",
-            "County",
-            "State",
-            "Zipcode",
-            "Country",
-            "Timezone",
             "Airport_Code",
-            "Weather_Timestamp",
-            "Wind_Direction",
-            "Weather_Condition",
             "Amenity",
+            "Astronomical_Twilight",
             "Bump",
+            "City",
+            "Civil_Twilight",
+            "County",
             "Crossing",
             "Give_Way",
             "Junction",
+            "Nautical_Twilight",
             "No_Exit",
             "Railway",
-            "Roundabout",
+            "State",
             "Station",
             "Stop",
-            "Traffic_Calming",
-            "Traffic_Signal",
-            "Turning_Loop",
             "Sunrise_Sunset",
-            "Civil_Twilight",
-            "Nautical_Twilight",
-            "Astronomical_Twilight",
+            "Timezone",
+            "Traffic_Signal",
+            "Weather_Condition",
+            "Wind_Direction",
+            "Zipcode",
         ]
     ).fit_transform(X)
+
+    # Change Temp
+    X["Temperature(Kel)"] = 273.5 + ((X["Temperature(F)"] - 32.0) * (5.0 / 9.0))
+    X["Wind_Chill(Kel)"] = 273.5 + ((X["Wind_Chill(F)"] - 32.0) * (5.0 / 9.0))
+
+    # Dropping F values to get rid of negatives
+    X = X.drop(["Temperature(F)", "Wind_Chill(F)"], axis=1)
 
     # fill NaN's with 0
     X = X.fillna(0)
@@ -96,52 +109,12 @@ def random_undersample(X, y):
 
 random_undersample(X, y)
 
-# balance with random undersampling
-# possible GPU annotation here
-def random_oversample(X, y):
-    ros = RandomOverSampler(random_state=42)
-    X_res, y_res = ros.fit_resample(X, y)
+
+def tomek_links(X, y):
+    tl = TomekLinks()
+    X_res, y_res = tl.fit_resample(X, y)
     X_res["Severity"] = y_res
-    X_res.to_csv("./gpu/balanced_data/random_oversampled.csv", index=False)
+    X_res.to_csv("./gpu/balanced_data/tomek_links.csv", index=False)
 
 
-random_oversample(X, y)
-
-# balance witih smote
-# used smaller subset of features for simplicity, will need to change
-# annotate with GPU here
-X = data[
-    [
-        "County",
-        "State",
-        "Timezone",
-        "Airport_Code",
-        "Bump",
-        "Give_Way",
-        "Roundabout",
-        "Stop",
-        "Traffic_Signal",
-        "Turning_Loop",
-    ]
-]
-y = data["Severity"]
-
-X = X.head(100)
-y = y.head(100)
-
-
-def smotenc_oversample(X, y):
-    X = MultiColumnLabelEncoder(
-        columns=["County", "State", "Timezone", "Airport_Code"]
-    ).fit_transform(X)
-    sm = SMOTENC(random_state=42, categorical_features=[4, 5, 6, 7, 8, 9])
-    X_res, y_res = sm.fit_resample(X, y)
-    X_res["Severity"] = y_res
-    X_res.to_csv("./gpu/balanced_data/smotenc_oversampled.csv", index=False)
-
-
-smotenc_oversample(X, y)
-
-
-# data.to_csv("./gpu/balanced_data/out.csv", index=False)
-
+tomek_links(X, y)
