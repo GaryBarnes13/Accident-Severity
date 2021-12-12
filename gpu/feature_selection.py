@@ -6,6 +6,7 @@ from sklearn.feature_selection import RFECV
 from sklearn.model_selection import StratifiedKFold
 from sklearn.feature_selection import RFE
 from sklearn.feature_selection import SelectKBest, chi2
+from sklearn.ensemble import RandomForestClassifier
 
 from MultiColumnLabelEncoder import MultiColumnLabelEncoder
 
@@ -90,12 +91,10 @@ X_labeled = X_labeled.fillna(0)
 
 
 # create classifier for use below
-clf = DecisionTreeClassifier(random_state=0)
-
+# clf = DecisionTreeClassifier(random_state=0)
+clf = RandomForestClassifier(max_depth=5, random_state=0)
 # find optimum number of features
-rfecv = RFECV(
-    estimator=clf, step=1, cv=StratifiedKFold(10), scoring="accuracy",
-)
+rfecv = RFECV(estimator=clf, step=1, cv=StratifiedKFold(10))
 rfecv.fit(X_labeled, y)
 
 # grab optimum number of features and write to results
@@ -129,7 +128,7 @@ f.write("\n\n")
 
 f.write("Select K-Best Results\n\n")
 
-skb = SelectKBest(chi2, k=10).fit(X_labeled, y)
+skb = SelectKBest(chi2, k=number_features).fit(X_labeled, y)
 
 indices = skb.get_support(indices=True)
 

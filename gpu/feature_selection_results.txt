@@ -1,0 +1,46 @@
+--- RUN BEGIN ---
+2021-12-10 16:05:34.628395
+
+optimum number of features based on RFECV: 29
+
+SFS Results
+City, County, State, Zipcode, Country, Timezone, Airport_Code, Visibility(mi), Wind_Direction, Wind_Speed(mph), Precipitation(in), Weather_Condition, Amenity, Bump, Crossing, Give_Way, Junction, No_Exit, Railway, Roundabout, Station, Stop, Traffic_Calming, Traffic_Signal, Turning_Loop, Sunrise_Sunset, Civil_Twilight, Nautical_Twilight, Astronomical_Twilight, 
+
+RFE Results
+City, County, State, Zipcode, Timezone, Airport_Code, Weather_Timestamp, Humidity(%), Pressure(in), Visibility(mi), Wind_Direction, Wind_Speed(mph), Precipitation(in), Weather_Condition, Amenity, Crossing, Give_Way, Junction, No_Exit, Railway, Station, Stop, Traffic_Signal, Sunrise_Sunset, Civil_Twilight, Nautical_Twilight, Astronomical_Twilight, Temperature(Kel), Wind_Chill(Kel), 
+
+Select K-Best Results
+
+City, County, State, Zipcode, Timezone, Airport_Code, Weather_Timestamp, Humidity(%), Weather_Condition, Wind_Chill(Kel), 
+
+--- RUN END ---
+
+
+
+--- RUN BEGIN ---
+2021-12-10 20:28:31.801882
+
+optimum number of features based on RFECV: 29
+
+SFS Results
+City, County, State, Zipcode, Country, Timezone, Airport_Code, Visibility(mi), Wind_Direction, Wind_Speed(mph), Precipitation(in), Weather_Condition, Amenity, Bump, Crossing, Give_Way, Junction, No_Exit, Railway, Roundabout, Station, Stop, Traffic_Calming, Traffic_Signal, Turning_Loop, Sunrise_Sunset, Civil_Twilight, Nautical_Twilight, Astronomical_Twilight, 
+
+RFE Results
+City, County, State, Zipcode, Timezone, Airport_Code, Weather_Timestamp, Humidity(%), Pressure(in), Visibility(mi), Wind_Direction, Wind_Speed(mph), Precipitation(in), Weather_Condition, Amenity, Crossing, Give_Way, Junction, No_Exit, Railway, Station, Stop, Traffic_Signal, Sunrise_Sunset, Civil_Twilight, Nautical_Twilight, Astronomical_Twilight, Temperature(Kel), Wind_Chill(Kel), 
+
+Select K-Best Results
+
+City, County, State, Zipcode, Timezone, Airport_Code, Weather_Timestamp, Humidity(%), Pressure(in), Visibility(mi), Wind_Direction, Wind_Speed(mph), Precipitation(in), Weather_Condition, Amenity, Crossing, Give_Way, Junction, No_Exit, Railway, Station, Stop, Traffic_Signal, Sunrise_Sunset, Civil_Twilight, Nautical_Twilight, Astronomical_Twilight, Temperature(Kel), Wind_Chill(Kel), 
+
+--- RUN END ---
+
+
+
+--- RUN BEGIN ---
+2021-12-11 09:32:22.232400
+
+--- RUN BEGIN ---
+2021-12-11 09:33:27.071870
+
+optimum number of features based on RFECV: 30
+
