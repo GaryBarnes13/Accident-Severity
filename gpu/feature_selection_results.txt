@@ -44,3 +44,115 @@ City, County, State, Zipcode, Timezone, Airport_Code, Weather_Timestamp, Humidit
 
 optimum number of features based on RFECV: 30
 
+--- RUN BEGIN ---
+2021-12-12 20:00:45.094031
+
+--- RUN BEGIN ---
+2021-12-12 20:13:05.945860
+
+--- RUN BEGIN ---
+2021-12-12 20:13:32.986006
+
+--- RUN BEGIN ---
+2021-12-12 20:14:35.682415
+
+optimum number of features based on RFECV: 1
+
+SFS Results
+Airport_Code, 
+
+RFE Results
+Zipcode, 
+
+Select K-Best Results
+
+Zipcode, 
+
+--- RUN END ---
+
+
+
+--- RUN BEGIN ---
+2021-12-12 20:54:30.658220
+
+optimum number of features based on RFECV: 1
+
+SFS Results
+Airport_Code, 
+
+RFE Results
+Zipcode, 
+
+Select K-Best Results
+
+Zipcode, 
+
+--- RUN END ---
+
+
+
+--- RUN BEGIN ---
+2021-12-12 21:04:16.311650
+
+optimum number of features based on RFECV: 1
+
+SFS Results
+Airport_Code, 
+
+RFE Results
+Zipcode, 
+
+Select K-Best Results
+
+Zipcode, 
+
+--- RUN END ---
+
+
+
+--- RUN BEGIN ---
+2021-12-12 21:15:18.195129
+
+optimum number of features based on RFECV: 9
+
+SFS Results
+City, State, Zipcode, Timezone, Pressure(in), Traffic_Signal, Civil_Twilight, Astronomical_Twilight, Wind_Chill(Kel), 
+
+RFE Results
+State, Zipcode, Timezone, Pressure(in), Crossing, Traffic_Signal, Nautical_Twilight, Astronomical_Twilight, Wind_Chill(Kel), 
+
+Select K-Best Results
+
+City, County, State, Zipcode, Airport_Code, Humidity(%), Weather_Condition, Crossing, Wind_Chill(Kel), 
+
+--- RUN END ---
+
+
+
+--- RUN BEGIN ---
+2021-12-13 07:41:18.441333
+
+optimum number of features based on RFECV: 9
+
+SFS Results
+City, State, Zipcode, Timezone, Pressure(in), Traffic_Signal, Civil_Twilight, Astronomical_Twilight, Wind_Chill(Kel), 
+
+--- RUN BEGIN ---
+2021-12-13 12:04:31.705626
+
+optimum number of features based on RFECV: 9
+
+SFS Results
+City, State, Zipcode, Timezone, Pressure(in), Traffic_Signal, Civil_Twilight, Astronomical_Twilight, Wind_Chill(Kel), 
+
+RFE Results
+State, Zipcode, Timezone, Pressure(in), Crossing, Traffic_Signal, Nautical_Twilight, Astronomical_Twilight, Wind_Chill(Kel), 
+
+Select K-Best Results
+
+City, County, State, Zipcode, Airport_Code, Humidity(%), Weather_Condition, Crossing, Wind_Chill(Kel), 
+
+--- RUN END ---
+
+
+

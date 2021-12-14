@@ -14,39 +14,28 @@ from MultiColumnLabelEncoder import MultiColumnLabelEncoder
 data = pd.read_csv("./accidents.zip")
 
 # drop irrelevant columns
-X = data[
+X = data.drop(
     [
-        "Airport_Code",
-        "Amenity",
-        "Astronomical_Twilight",
-        "Bump",
-        "City",
-        "Civil_Twilight",
-        "County",
-        "Crossing",
-        "Give_Way",
-        "Humidity(%)",
-        "Junction",
-        "Nautical_Twilight",
-        "No_Exit",
-        "Precipitation(in)",
-        "Pressure(in)",
-        "Railway",
-        "State",
-        "Station",
-        "Stop",
-        "Sunrise_Sunset",
-        "Temperature(F)",
-        "Timezone",
-        "Traffic_Signal",
-        "Visibility(mi)",
-        "Weather_Condition",
-        "Wind_Chill(F)",
-        "Wind_Direction",
-        "Wind_Speed(mph)",
-        "Zipcode",
-    ]
-]
+        "ID",
+        "Severity",
+        "Start_Lat",
+        "End_Lat",
+        "Start_Lng",
+        "End_Lng",
+        "Distance(mi)",
+        "Start_Time",
+        "End_Time",
+        "Weather_Timestamp",
+        "Description",
+        "Number",
+        "Side",
+        "Street",
+    ],
+    axis=1,
+)
+
+print(X.dtypes)
+
 
 # set target as severity
 y = data["Severity"]
@@ -104,17 +93,8 @@ def random_undersample(X, y):
     rus = RandomUnderSampler(random_state=42)
     X_res, y_res = rus.fit_resample(X, y)
     X_res["Severity"] = y_res
-    X_res.to_csv("./gpu/balanced_data/random_undersampled.csv", index=False)
+    X_res.to_csv("./gpu/balanced_data/random_undersampled_all.csv", index=False)
 
 
 random_undersample(X, y)
 
-
-def tomek_links(X, y):
-    tl = TomekLinks()
-    X_res, y_res = tl.fit_resample(X, y)
-    X_res["Severity"] = y_res
-    X_res.to_csv("./gpu/balanced_data/tomek_links.csv", index=False)
-
-
-tomek_links(X, y)

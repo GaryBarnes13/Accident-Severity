@@ -7,11 +7,13 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.feature_selection import RFE
 from sklearn.feature_selection import SelectKBest, chi2
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.naive_bayes import GaussianNB
 
 from MultiColumnLabelEncoder import MultiColumnLabelEncoder
 
 # read in accident data
-data = pd.read_csv("./accidents.zip")
+data = pd.read_csv("./random_undersampled_all.csv")
 
 f = open("./gpu/feature_selection_results.txt", "a")
 
@@ -19,27 +21,14 @@ f.write("--- RUN BEGIN ---\n")
 f.write(f"{datetime.now()}\n\n")
 
 # drop the attributes we know we should not use to predict severity
-X = data.drop(
-    [
-        "ID",
-        "Severity",
-        "Start_Lat",
-        "End_Lat",
-        "Start_Lng",
-        "End_Lng",
-        "Distance(mi)",
-        "Start_Time",
-        "End_Time",
-        "Description",
-        "Number",
-        "Side",
-        "Street",
-    ],
-    axis=1,
-)
+X = data.drop(["Severity"], axis=1,)
+
+print(X.dtypes)
 
 # set target as severity
 y = data["Severity"]
+
+print(y.dtypes)
 
 # encode nominal/categorical attributes with label encoding
 X_labeled = MultiColumnLabelEncoder(
@@ -51,7 +40,6 @@ X_labeled = MultiColumnLabelEncoder(
         "Country",
         "Timezone",
         "Airport_Code",
-        "Weather_Timestamp",
         "Wind_Direction",
         "Weather_Condition",
         "Amenity",
@@ -76,25 +64,24 @@ X_labeled = MultiColumnLabelEncoder(
 
 # convert temp to Kelvin
 # Converting F to Kelvin because K Best doesn't accept negative numbers
-X_labeled["Temperature(Kel)"] = 273.5 + (
-    (X_labeled["Temperature(F)"] - 32.0) * (5.0 / 9.0)
-)
-X_labeled["Wind_Chill(Kel)"] = 273.5 + (
-    (X_labeled["Wind_Chill(F)"] - 32.0) * (5.0 / 9.0)
-)
+# X_labeled["Temperature(Kel)"] = 273.5 + (
+#     (X_labeled["Temperature(F)"] - 32.0) * (5.0 / 9.0)
+# )
+# X_labeled["Wind_Chill(Kel)"] = 273.5 + (
+#     (X_labeled["Wind_Chill(F)"] - 32.0) * (5.0 / 9.0)
+# )
 
-# Dropping F values to get rid of negatives
-X_labeled = X_labeled.drop(["Temperature(F)", "Wind_Chill(F)"], axis=1)
+# # Dropping F values to get rid of negatives
+# X_labeled = X_labeled.drop(["Temperature(F)", "Wind_Chill(F)"], axis=1)
 
 # fill NaN's with 0
 X_labeled = X_labeled.fillna(0)
 
 
 # create classifier for use below
-# clf = DecisionTreeClassifier(random_state=0)
 clf = RandomForestClassifier(max_depth=5, random_state=0)
 # find optimum number of features
-rfecv = RFECV(estimator=clf, step=1, cv=StratifiedKFold(10))
+rfecv = RFECV(estimator=clf, step=1, cv=StratifiedKFold(10), scoring="accuracy")
 rfecv.fit(X_labeled, y)
 
 # grab optimum number of features and write to results
