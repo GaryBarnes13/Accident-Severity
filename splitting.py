@@ -73,11 +73,11 @@ def split():
 
 
 
-        # kf = KFold(n_splits = 10)                                     
-        # for train_index, test_index in kf.split(X_labeled):
-        #     #print("TRAIN:", train_index, "TEST:", test_index)
-        #     X_train_KFold, X_test_KFold = X_labeled.loc[train_index], X_labeled.loc[test_index]
-        #     y_train_KFold, y_test_KFold = y.loc[train_index], y.loc[test_index]
+        kf = KFold(n_splits = 10)                                     
+        for train_index, test_index in kf.split(X_labeled):
+            #print("TRAIN:", train_index, "TEST:", test_index)
+            X_train_KFold, X_test_KFold = X_labeled.loc[train_index], X_labeled.loc[test_index]
+            y_train_KFold, y_test_KFold = y.loc[train_index], y.loc[test_index]
 
         # lr_KFold = tree.DecisionTreeClassifier()
         # lr_KFold.fit(X_train_KFold, y_train_KFold)
